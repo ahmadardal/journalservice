@@ -22,3 +22,27 @@ export const RegisterSchema = {
     },
   },
 };
+
+export const LoginSchema = {
+  body: {
+    type: "object",
+    required: ["email", "password"],
+    properties: {
+      email: { description: "Email address of the user", type: "string" },
+      password: { description: "A password for the user", type: "string" },
+    },
+  },
+  response: {
+    200: {
+      description: "Success response",
+      type: "object",
+      properties: {
+        success: {
+          description: "If the request was successful",
+          type: "boolean",
+        },
+        message: { description: "Message to return to client", type: "string" },
+      },
+    },
+  },
+};

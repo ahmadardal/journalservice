@@ -11,4 +11,11 @@ export async function AuthRoutes(server: FastifyInstance, options: FastifyPlugin
         handler: controllers.RegisterController
     })
 
+    server.route({
+        method: "POST",
+        url: "/login",
+        schema: schemas.LoginSchema,
+        handler: controllers.LoginController
+    })
+
 }

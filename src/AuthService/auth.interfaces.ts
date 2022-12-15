@@ -4,9 +4,15 @@ export interface IRegisterRequest {
   password: string;
 }
 
-export interface IRegisterResponse {
+export interface AuthResponse {
   success: boolean;
-  message: string | null;
+  message: string;
+  token: string | null;
+}
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
 }
 
 export interface IUser {

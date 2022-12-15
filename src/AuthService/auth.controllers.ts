@@ -1,14 +1,15 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { IRegisterRequest, IRegisterResponse, IUser } from "./auth.interfaces";
+import { IRegisterRequest, AuthResponse, IUser } from "./auth.interfaces";
 import validateEmail from "../Utilities/validateEmail";
 
 export async function RegisterController(
   request: FastifyRequest<{ Body: IRegisterRequest }>,
   reply: FastifyReply
 ) {
-  const response: IRegisterResponse = {
+  const response: AuthResponse = {
     success: false,
     message: "",
+    token: null
   };
 
   if (!validateEmail(request.body.email)) {
@@ -40,5 +41,13 @@ export async function RegisterController(
   response.success = true;
   response.message = "User successfully created!";
 
+
+
   await reply.status(201).send(response);
 }
+
+
+
+export async function LoginController(request: FastifyRequest, reply: FastifyReply) {
+
+};

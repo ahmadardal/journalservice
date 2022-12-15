@@ -2,11 +2,16 @@ import fastify, {
   FastifyInstance,
 } from "fastify";
 import AuthService from "./AuthService/auth.index";
+import Auth from "./Utilities/auth";
 import database, { Db } from "./Utilities/db";
 
 declare module 'fastify' {
   interface FastifyRequest {
     db: Db;
+  }
+
+  interface FastifyInstance {
+    authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void>
   }
 }
 
@@ -16,7 +21,13 @@ const port = 3000;
 async function start() {
   
   await server.register(database);
+
+  await server.register(Auth)
+
   await server.register(AuthService);
+
+
+
 
   server.listen(
     { port: port, host: "0.0.0.0" },
