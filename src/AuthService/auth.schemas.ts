@@ -1,3 +1,18 @@
+const AuthResponse = {
+  200: {
+    description: "Success response",
+    type: "object",
+    properties: {
+      success: {
+        description: "If the request was successful",
+        type: "boolean",
+      },
+      message: { description: "Message to return to client", type: "string" },
+      token: {description: "The JWT token.", type: "string"}
+    },
+  },
+};
+
 export const RegisterSchema = {
   body: {
     type: "object",
@@ -8,19 +23,7 @@ export const RegisterSchema = {
       password: { description: "A password for the user", type: "string" },
     },
   },
-  response: {
-    200: {
-      description: "Success response",
-      type: "object",
-      properties: {
-        success: {
-          description: "If the request was successful",
-          type: "boolean",
-        },
-        message: { description: "Message to return to client", type: "string" },
-      },
-    },
-  },
+  response: AuthResponse,
 };
 
 export const LoginSchema = {
@@ -32,17 +35,5 @@ export const LoginSchema = {
       password: { description: "A password for the user", type: "string" },
     },
   },
-  response: {
-    200: {
-      description: "Success response",
-      type: "object",
-      properties: {
-        success: {
-          description: "If the request was successful",
-          type: "boolean",
-        },
-        message: { description: "Message to return to client", type: "string" },
-      },
-    },
-  },
+  response: AuthResponse,
 };

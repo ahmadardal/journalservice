@@ -4,10 +4,16 @@ export interface IRegisterRequest {
   password: string;
 }
 
-export interface AuthResponse {
+export interface IAuthResponse {
   success: boolean;
   message: string;
   token: string | null;
+}
+
+export interface IToken {
+  name: string;
+  email: string;
+  userId: string | null;
 }
 
 export interface ILoginRequest {
@@ -16,19 +22,19 @@ export interface ILoginRequest {
 }
 
 export interface IUser {
-    _id: string | null,
-    name: string,
-    email: string,
-    password: string,
-    journalIds: Array<string>
+  _id: string | null;
+  name: string;
+  email: string;
+  password: string;
+  journalIds: Array<string>;
 }
 
 export interface IJournal {
-    _id: string,
-    title: string,
-    content: string,
-    date: Date,
-    users: Array<string> | null
+  _id: string;
+  title: string;
+  content: string;
+  date: Date;
+  users: Array<string> | null;
 }
 
 // Användaren loggar in, och då kommer IUser objektet att hämtas in i mobilappen.

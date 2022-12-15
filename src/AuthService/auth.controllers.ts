@@ -1,15 +1,21 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { IRegisterRequest, AuthResponse, IUser } from "./auth.interfaces";
+import {
+  IRegisterRequest,
+  IAuthResponse,
+  IUser,
+  IToken,
+  ILoginRequest,
+} from "./auth.interfaces";
 import validateEmail from "../Utilities/validateEmail";
 
 export async function RegisterController(
   request: FastifyRequest<{ Body: IRegisterRequest }>,
   reply: FastifyReply
 ) {
-  const response: AuthResponse = {
+  const response: IAuthResponse = {
     success: false,
     message: "",
-    token: null
+    token: null,
   };
 
   if (!validateEmail(request.body.email)) {
@@ -36,18 +42,60 @@ export async function RegisterController(
     journalIds: [],
   };
 
-  await UserModel.create(newUser);
+  const createdUser = await UserModel.create(newUser);
+
+  const token: IToken = {
+    name: createdUser.name,
+    email: createdUser.email,
+    userId: createdUser._id,
+  };
+
+  const jwtToken = await reply.jwtSign(token);
 
   response.success = true;
   response.message = "User successfully created!";
-
-
+  response.token = jwtToken;
 
   await reply.status(201).send(response);
 }
 
+export async function LoginController(
+  request: FastifyRequest<{ Body: ILoginRequest }>,
+  reply: FastifyReply
+) {
+  const { UserModel } = request.db.models;
 
+  const response: IAuthResponse = {
+    success: false,
+    message: "",
+    token: null,
+  };
 
-export async function LoginController(request: FastifyRequest, reply: FastifyReply) {
+  const user = await UserModel.findOne({
+    email: request.body.email,
+    password: request.body.password,
+  });
 
-};
+  if (!user) {
+    response.success = false;
+    response.message = "User does not exist or wrong password!";
+    response.token = null;
+    return await reply.status(403).send(response);
+  }
+
+  const token: IToken = {
+    name: user.name,
+    email: user.email,
+    userId: user._id,
+  };
+
+  const jwtToken = await reply.jwtSign(token);
+
+  response.success = true;
+  response.message = "Successfully logged in!";
+  response.token = jwtToken;
+
+  console.log("Returning::", response);
+
+  return await reply.status(200).send(response);
+}
