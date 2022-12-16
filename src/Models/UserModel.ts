@@ -1,4 +1,4 @@
-import { model, Model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IUser } from "../AuthService/auth.interfaces";
 
 const UserSchema = new Schema<IUser>({

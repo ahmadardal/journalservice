@@ -13,6 +13,17 @@ const AuthResponse = {
   },
 };
 
+const headersJsonSchema = {
+  type: "object",
+  description: "Bearer Your Token",
+  properties: {
+    authorization: {
+      type: "string",
+    },
+  },
+  required: ["authorization"],
+};
+
 export const RegisterSchema = {
   body: {
     type: "object",

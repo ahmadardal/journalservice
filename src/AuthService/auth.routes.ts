@@ -17,5 +17,4 @@ export async function AuthRoutes(server: FastifyInstance, options: FastifyPlugin
         schema: schemas.LoginSchema,
         handler: controllers.LoginController
     })
-
 }

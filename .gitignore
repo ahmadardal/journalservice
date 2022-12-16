@@ -105,3 +105,6 @@ dist
 
 build
 package-lock.json
+
+.env.development
+.env.production
