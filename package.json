@@ -4,8 +4,14 @@
   "description": "A backend for the journal app",
   "main": "main.js",
   "scripts": {
-    "start": "npm run compile && node build/main.js",
-    "compile": "tsc && tsc-alias"
+    "build": "tsc && tsc-alias",
+    "start": "node build/main.js",
+    "start-dev": "npm run build && node build/main.js",
+    "tsc": "./node_modules/typescript/bin/tsc",
+    "postinstall": "npm run build"
+  },
+  "engine": {
+    "node": "20.x"
   },
   "author": "",
   "license": "ISC",
