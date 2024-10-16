@@ -7,6 +7,7 @@ import {
   ILoginRequest,
 } from "./auth.interfaces";
 import validateEmail from "../Utilities/validateEmail";
+import mongoose from "mongoose";
 
 export async function RegisterController(
   request: FastifyRequest<{ Body: IRegisterRequest }>,
@@ -35,7 +36,7 @@ export async function RegisterController(
   }
 
   const newUser: IUser = {
-    _id: null,
+    _id: crypto.randomUUID(),
     name: request.body.name,
     email: request.body.email,
     password: request.body.password,
@@ -44,10 +45,12 @@ export async function RegisterController(
 
   const createdUser = await UserModel.create(newUser);
 
+  console.log(newUser)
+
   const token: IToken = {
     name: createdUser.name,
     email: createdUser.email,
-    userId: createdUser._id,
+    userId: newUser._id,
   };
 
   const jwtToken = await reply.jwtSign(token);

@@ -7,6 +7,13 @@ async function ContentRoutes(
   options: FastifyPluginOptions
 ) {
   server.route({
+    method: "GET",
+    url: "/journals",
+    preHandler: server.authenticate,
+    handler: controllers.GetJournalsController,
+  });
+  
+  server.route({
     method: "POST",
     url: "/journal",
     preHandler: server.authenticate,

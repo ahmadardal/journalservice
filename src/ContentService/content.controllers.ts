@@ -1,11 +1,28 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { IGetUserByEmail, IJournalEntry } from "./content.interfaces";
 
+export async function GetJournalsController(
+  request: FastifyRequest<{ Body: IJournalEntry }>,
+  reply: FastifyReply
+) {
+  const { JournalEntryModel } = request.db.models;
+
+  const { userId } = request.user;
+
+  const entries = await JournalEntryModel.find({
+    userIds: userId
+  })
+
+  return await reply.status(200).send(entries);
+}
+
 export async function CreateJournalEntryController(
   request: FastifyRequest<{ Body: IJournalEntry }>,
   reply: FastifyReply
 ) {
   const { userId } = request.user;
+
+  console.log("USER ID: ", userId)
 
   const { JournalEntryModel } = request.db.models;
 
